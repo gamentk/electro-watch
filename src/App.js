@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { NativeBaseProvider } from 'native-base';
 import { LogBox } from 'react-native';
+import ConditionProvider from './common/contexts/ConditionContext/ConditionContext';
 
 import { RootStack } from './navigators';
 import { theme } from './constants';
@@ -12,7 +13,9 @@ const App = () => {
     return (
         <NavigationContainer>
             <NativeBaseProvider theme={theme}>
-                <RootStack />
+                <ConditionProvider>
+                    <RootStack />
+                </ConditionProvider>
             </NativeBaseProvider>
         </NavigationContainer>
     );

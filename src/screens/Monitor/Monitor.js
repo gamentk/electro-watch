@@ -12,8 +12,8 @@ import {
 import OcIcon from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-
-import { AlarmButton, CircleButton, TextBox, CreateUserModal } from '../../common/components';
+import { useConditionContext } from '../../common/contexts/ConditionContext/ConditionContext';
+import { AlarmButton, CircleButton, TextBox, CreateUserModal, EditConditionModal } from '../../common/components';
 import { useWebSocket, useDisclosure } from '../../common/hooks';
 
 const Monitor = ({ navigation }) => {
@@ -29,7 +29,9 @@ const Monitor = ({ navigation }) => {
         createdAt
     } = data;
     const toast = useToast();
-    const { isOpen, onToggle } = useDisclosure();
+    const { isOpen: openCreateUser, onToggle: toggleCreateUser } = useDisclosure();
+    const { isOpen: openEditCondition, onToggle: toggleEditCondition } = useDisclosure();
+    const { voltMin, voltMax, currentMax } = useConditionContext();
 
     const [isAlert, setIsAlert] = useState(false);
     const [error, setError] = useState(null);
@@ -60,7 +62,7 @@ const Monitor = ({ navigation }) => {
     }
 
     const validateValue = () => {
-        if (volt === 0 || volt < 208 || volt > 240 || current > 40) {
+        if (volt === 0 || volt < voltMin || volt > voltMax || current > currentMax) {
             setIsAlert(true);
             setError({
                 volt,
@@ -120,25 +122,26 @@ const Monitor = ({ navigation }) => {
                     >
                         <TextBox
                             title="PEA NO."
+                            color={(volt === 0) ? 'red.400' : 'green.500'}
                         >
                             {peaNo}
                         </TextBox>
                         <TextBox
                             title="Voltage"
-                            color={(volt < 208 || volt > 240) ? 'red.400' : 'black'}
+                            color={(volt < voltMin || volt > voltMax) ? 'red.400' : 'green.500'}
                         >
                             {volt}
                         </TextBox>
-                        <TextBox title="Current" color={(current > 40) ? 'red.400' : 'black'}>
+                        <TextBox title="Current" color={(current > currentMax || volt === 0) ? 'red.400' : 'green.500'}>
                             {current}
                         </TextBox>
-                        <TextBox title="Power">
+                        <TextBox title="Power" color={(volt === 0) ? 'red.400' : 'green.500'}>
                             {power}
                         </TextBox>
-                        <TextBox title="Energy">
+                        <TextBox title="Energy" color={(volt === 0) ? 'red.400' : 'green.500'}>
                             {energy}
                         </TextBox>
-                        <TextBox title="Power Factor">
+                        <TextBox title="Power Factor" color={(volt === 0) ? 'red.400' : 'green.500'}>
                             {powerFactor}
                         </TextBox>
                     </VStack>
@@ -168,21 +171,32 @@ const Monitor = ({ navigation }) => {
                     size={10}
                     color="white"
                     bg="green.400"
+                    right="0.5"
                 />
                 {
                     (role === 'ADMINISTRATOR')
                     && (
-                        <>
+                        <HStack space="2">
                             <CircleButton
-                                onPress={onToggle}
+                                onPress={toggleEditCondition}
+                                icon={MaIcon}
+                                name="playlist-edit"
+                                size={10}
+                                color="white"
+                                bg="yellow.400"
+                                left="0.5"
+                            />
+                            <EditConditionModal isOpen={openEditCondition} onClose={toggleEditCondition} />
+                            <CircleButton
+                                onPress={toggleCreateUser}
                                 icon={Ionicons}
                                 name="ios-person-add"
                                 size={10}
                                 color="white"
                                 bg="blue.400"
                             />
-                            <CreateUserModal isOpen={isOpen} onClose={onToggle} />
-                        </>
+                            <CreateUserModal isOpen={openCreateUser} onClose={toggleCreateUser} />
+                        </HStack>
                     )
                 }
             </HStack>

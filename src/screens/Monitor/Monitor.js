@@ -122,7 +122,7 @@ const Monitor = ({ navigation }) => {
                     >
                         <TextBox
                             title="PEA NO."
-                            color={(volt === 0) ? 'red.400' : 'green.500'}
+                            color="black"
                         >
                             {peaNo}
                         </TextBox>

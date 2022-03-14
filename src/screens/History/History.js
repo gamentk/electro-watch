@@ -51,8 +51,8 @@ const History = () => {
                     <Text {...styles.tableHead}>เวลา</Text>
                     <Text {...styles.tableHead}>V</Text>
                     <Text {...styles.tableHead}>A</Text>
-                    <Text {...styles.tableHead}>W</Text>
-                    <Text {...styles.tableHead}>J</Text>
+                    <Text {...styles.tableHead}>kW</Text>
+                    <Text {...styles.tableHead}>kWh</Text>
                     <Text {...styles.tableHead}>PF</Text>
                 </HStack>
                 <ScrollView>

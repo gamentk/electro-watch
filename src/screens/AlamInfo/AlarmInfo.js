@@ -10,8 +10,9 @@ import {
 import { alarmInfo } from '../../common/mocks'
 
 const AlarmInfo = ({ route }) => {
-    const { errors } = route.params;
-    const { value: title, descriptions } = alarmInfo(errors[0].value);
+    const { description } = route.params;
+    const { alarmError } = description;
+    const { value: title, descriptions } = alarmInfo(alarmError);
 
     return (
         <Box

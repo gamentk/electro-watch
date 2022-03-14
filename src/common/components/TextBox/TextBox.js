@@ -5,34 +5,32 @@ import {
     Box
 } from 'native-base';
 
-const TextBox = ({ title, color, onPress, children }) => {
+const TextBox = ({ title, color, children }) => {
     return (
-        <Pressable onPress={onPress}>
-            <Box>
+        <Box>
+            <Text
+                fontSize="lg"
+                fontWeight="semibold"
+                fontFamily="heading"
+            >
+                {title}
+            </Text>
+            <Box
+                py="1.5"
+                rounded="md"
+                alignItems="center"
+                borderWidth={2}
+                borderColor="gray.400"
+            >
                 <Text
                     fontSize="lg"
-                    fontWeight="semibold"
-                    fontFamily="heading"
+                    fontWeight="medium"
+                    color={color}
                 >
-                    {title}
+                    {children}
                 </Text>
-                <Box
-                    py="1.5"
-                    rounded="md"
-                    alignItems="center"
-                    borderWidth={2}
-                    borderColor="gray.400"
-                >
-                    <Text
-                        fontSize="lg"
-                        fontWeight="medium"
-                        color={color}
-                    >
-                        {children}
-                    </Text>
-                </Box>
             </Box>
-        </Pressable>
+        </Box>
     );
 }
 

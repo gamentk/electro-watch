@@ -10,8 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
+    "axios": "^0.26.1",
+    "formik": "^2.2.9",
     "native-base": "^3.3.4",
     "react": "17.0.2",
     "react-native": "0.67.1",
@@ -21,6 +24,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.0.0",
+    "socket.io-client": "^4.4.1",
     "sp-react-native-mqtt": "^0.5.0"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { Text, Icon } from 'native-base'
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 
-import { Monitor, Alarm, AlarmInfo } from '../../screens';
+import { Monitor, Alarm, AlarmInfo, History } from '../../screens';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +47,10 @@ const AppStack = () => (
             <Stack.Screen
                 name="Alarm Information"
                 component={AlarmInfo}
+            />
+            <Stack.Screen
+                name="History"
+                component={History}
             />
         </Stack.Navigator>
     </Fragment>

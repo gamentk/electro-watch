@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     VStack,
     Icon,
@@ -10,22 +10,59 @@ import { TextBox } from '../../common/components';
 import { SquareButton } from './components';
 
 // Mock
-import { error } from '../../common/mocks';
+// import { error } from '../../common/mocks';
 
 const Alarm = ({ route, navigation }) => {
+    const [description, setDescription] = useState({});
     const {
-        error: {
-            isCutout,
-            voltageMode,
-            currentMode
+        alarmError,
+        ratio
+    } = description;
+
+    const { error } = route.params;
+    const {
+        volt,
+        current,
+        date,
+        time
+    } = error;
+
+    useEffect(() => {
+        if (volt === 0) {
+            setDescription({
+                alarmError: 'Black Out',
+                ratio: `${volt} V/0 A`,
+                date,
+                time
+            });
+        } else if (volt < 208 && volt !== 0) {
+            setDescription({
+                alarmError: 'Voltage Drop',
+                ratio: `${volt} V`,
+                date,
+                time
+            });
+        } else if (volt > 240) {
+            setDescription({
+                alarmError: 'Over Voltage',
+                ratio: `${volt} V`,
+                date,
+                time
+            });
+        } else if (current > 40) {
+            setDescription({
+                alarmError: 'Over Current',
+                ratio: `${current} A`,
+                date,
+                time
+            });
+        } else {
+            setDescription({});
         }
-    } = route.params;
-    const errors = error(voltageMode, currentMode, isCutout);
+    }, [error]);
 
     const handlePressAlarmInfo = () => {
-        navigation.navigate('Alarm Information', {
-            errors
-        });
+        navigation.navigate('Alarm Information', { description });
     }
 
     return (
@@ -48,17 +85,18 @@ const Alarm = ({ route, navigation }) => {
                     color="red.400"
                     alignSelf="center"
                 />
-                {
-                    errors.map((item, index) => (
-                        <TextBox
-                            key={`electric-${index}`}
-                            title={item.title}
-                            color="red.600"
-                        >
-                            {item.value}{' '}{item.unit}
-                        </TextBox>
-                    ))
-                }
+                <TextBox title="Alarm Errors" color="red.400">
+                    {alarmError}
+                </TextBox>
+                <TextBox title="VT/CT Ratio" color="red.400">
+                    {ratio}
+                </TextBox>
+                <TextBox title="วันที่แจ้งเตือน" color="red.400">
+                    {date}
+                </TextBox>
+                <TextBox title="เวลา" color="red.400">
+                    {time}{' '}{'น.'}
+                </TextBox>
                 <SquareButton onPress={handlePressAlarmInfo}>หมายเหตุ</SquareButton>
             </VStack>
         </Box>

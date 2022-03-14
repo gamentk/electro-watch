@@ -5,11 +5,10 @@ import {
     Box
 } from 'native-base';
 
-const CircleButton = ({ icon: InputIcon, size, color, bg, onPress, ...rest }) => {
+const CircleButton = ({ icon: InputIcon, size, color, bg, onPress, name, ...rest }) => {
     return (
         <Pressable
-            onPress={onPress || function () { }}
-            {...rest}
+            onPress={onPress}
         >
             {
                 ({ isPressed }) => (
@@ -28,11 +27,10 @@ const CircleButton = ({ icon: InputIcon, size, color, bg, onPress, ...rest }) =>
                     >
                         <Icon
                             as={InputIcon}
-                            name="sign-out"
+                            name={name}
                             size={size}
                             color={color}
-                            top="1"
-                            left="1"
+                            {...rest}
                         />
                     </Box>
                 )

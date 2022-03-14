@@ -9,9 +9,7 @@ import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AlarmButton = ({ navigation, isAlert, error }) => {
     const handlePressAlert = () => {
-        navigation.navigate('Alarm', {
-            error
-        });
+        navigation.navigate('Alarm', { error });
     }
 
     return (

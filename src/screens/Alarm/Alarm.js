@@ -8,11 +8,13 @@ import OcIcon from 'react-native-vector-icons/Octicons';
 
 import { TextBox } from '../../common/components';
 import { SquareButton } from './components';
+import { useConditionContext } from '../../common/contexts/ConditionContext/ConditionContext';
 
 // Mock
 // import { error } from '../../common/mocks';
 
 const Alarm = ({ route, navigation }) => {
+    const { voltMin, voltMax, currentMax } = useConditionContext();
     const [description, setDescription] = useState({});
     const {
         alarmError,
@@ -35,21 +37,21 @@ const Alarm = ({ route, navigation }) => {
                 date,
                 time
             });
-        } else if (volt < 208 && volt !== 0) {
+        } else if (volt < voltMin && volt !== 0) {
             setDescription({
                 alarmError: 'Voltage Drop',
                 ratio: `${volt} V`,
                 date,
                 time
             });
-        } else if (volt > 240) {
+        } else if (volt > voltMax) {
             setDescription({
                 alarmError: 'Over Voltage',
                 ratio: `${volt} V`,
                 date,
                 time
             });
-        } else if (current > 40) {
+        } else if (current > currentMax) {
             setDescription({
                 alarmError: 'Over Current',
                 ratio: `${current} A`,

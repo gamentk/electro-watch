@@ -18,7 +18,7 @@ import { useWebSocket, useDisclosure } from '../../common/hooks';
 
 const Monitor = ({ navigation }) => {
     const message = useWebSocket({ enabled: true });
-    const data = useMemo(() => message || {});
+    const data = useMemo(() => message || {}, [message]);
     const {
         peaNo,
         volt,
@@ -67,8 +67,8 @@ const Monitor = ({ navigation }) => {
             setError({
                 volt,
                 current,
-                date: new Date(createdAt).toLocaleDateString('th-Th'),
-                time: new Date(createdAt).toLocaleTimeString('th-Th')
+                date: new Date(createdAt || new Date()).toLocaleDateString('th-Th'),
+                time: new Date(createdAt || new Date()).toLocaleTimeString('th-Th')
             });
         } else {
             setIsAlert(false);
